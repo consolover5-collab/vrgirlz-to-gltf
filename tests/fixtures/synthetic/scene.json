@@ -1,0 +1,550 @@
+{
+  "game_objects": [
+    {
+      "path_id": 1,
+      "name": "Scans",
+      "parent": null,
+      "children": [
+        2
+      ],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "path_id": 2,
+      "name": "91-150K",
+      "parent": 1,
+      "children": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        14
+      ],
+      "transform": {
+        "t": [
+          0.0,
+          0.001,
+          0.0
+        ],
+        "r": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "lod_group": {
+        "levels": [
+          {
+            "screen_height": 0.25,
+            "renderers": [
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          },
+          {
+            "screen_height": 0.125,
+            "renderers": [
+              8,
+              9
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path_id": 3,
+      "name": "91_LOD0_MeshPart0",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "mesh": "91_LOD0_MeshPart0",
+      "materials": [
+        "91_dry"
+      ]
+    },
+    {
+      "path_id": 4,
+      "name": "91_LOD0_MeshPart1",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "mesh": "91_LOD0_MeshPart1",
+      "materials": [
+        "91_dry"
+      ]
+    },
+    {
+      "path_id": 5,
+      "name": "Eyes-Left_LOD0",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          0.919,
+          0.919,
+          0.919
+        ]
+      },
+      "mesh": "Eyes-Left_LOD0",
+      "materials": [
+        "Eyes"
+      ]
+    },
+    {
+      "path_id": 6,
+      "name": "Eyes-Right_LOD0",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          0.919,
+          0.919,
+          0.919
+        ]
+      },
+      "mesh": "Eyes-Right_LOD0",
+      "materials": [
+        "Eyes"
+      ]
+    },
+    {
+      "path_id": 7,
+      "name": "Eyelashes_LOD0",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          0.919,
+          0.919,
+          0.919
+        ]
+      },
+      "mesh": "Eyelashes_LOD0",
+      "materials": [
+        "Eyelashes"
+      ]
+    },
+    {
+      "path_id": 8,
+      "name": "91_LOD1_MeshPart0",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "mesh": "91_LOD1_MeshPart0",
+      "materials": [
+        "91_dry"
+      ]
+    },
+    {
+      "path_id": 9,
+      "name": "Eyes-Left_LOD1",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          0.919,
+          0.919,
+          0.919
+        ]
+      },
+      "mesh": "Eyes-Left_LOD1",
+      "materials": [
+        "Eyes"
+      ]
+    },
+    {
+      "path_id": 10,
+      "name": "91sofa",
+      "parent": 2,
+      "children": [
+        11,
+        12,
+        13
+      ],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "path_id": 11,
+      "name": "91-C1",
+      "parent": 10,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "mesh": "91-C1",
+      "materials": [
+        "91_sofa_C1"
+      ]
+    },
+    {
+      "path_id": 12,
+      "name": "Sofa-Feet",
+      "parent": 10,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "mesh": "Sofa-Feet",
+      "materials": [
+        "91_feet"
+      ]
+    },
+    {
+      "path_id": 13,
+      "name": "91shad",
+      "parent": 10,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          167.4,
+          167.4,
+          167.4
+        ]
+      },
+      "mesh": "91shad",
+      "materials": [
+        "Shadow"
+      ]
+    },
+    {
+      "path_id": 14,
+      "name": "Pivot",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.416,
+          0.658,
+          0.51
+        ],
+        "r": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  ],
+  "materials": {
+    "91_dry": {
+      "shader": "IR Deform PreIntegrated Skin Wet Light Override",
+      "textures": {
+        "_MainTex": "91_CLR",
+        "_BumpTex": "91_NM",
+        "_SpecTex": "91_SPC",
+        "_MicroMixMap": "91_RGB01"
+      },
+      "colors": {
+        "_Color": [
+          0.647,
+          0.607,
+          0.571,
+          1.0
+        ]
+      }
+    },
+    "91Wet": {
+      "shader": "IR Deform PreIntegrated Skin Wet Light Override",
+      "textures": {
+        "_SpecTex": "91WET_SPC"
+      }
+    },
+    "Eyes": {
+      "shader": "Marmoset Specular IBL",
+      "textures": {
+        "_MainTex": "Eye-T"
+      }
+    },
+    "Eyelashes": {
+      "shader": "IR Hair",
+      "textures": {
+        "_MainTex": "Eyelash"
+      },
+      "floats": {
+        "_Cutoff": 1.0
+      }
+    },
+    "91_sofa_C1": {
+      "shader": "IR Deform PreIntegrated Skin",
+      "textures": {
+        "_MainTex": "91-C1_CLR"
+      }
+    },
+    "91_feet": {
+      "shader": "IR Deform PreIntegrated Skin",
+      "textures": {
+        "_MainTex": "Sofa-Feet_CLR"
+      }
+    },
+    "Shadow": {
+      "shader": "Marmoset Diffuse IBL",
+      "textures": {
+        "_MainTex": "91shad"
+      },
+      "floats": {
+        "_Cutoff": 0.554
+      }
+    }
+  },
+  "textures": {
+    "91_CLR": {
+      "width": 256,
+      "height": 256,
+      "format": "DXT1",
+      "byte_size": 98304,
+      "image": "textures/91_CLR.png"
+    },
+    "91_NM": {
+      "width": 256,
+      "height": 256,
+      "format": "DXT5",
+      "byte_size": 196608,
+      "image": "textures/91_NM.png"
+    },
+    "91_SPC": {
+      "width": 256,
+      "height": 256,
+      "format": "DXT5",
+      "byte_size": 196608,
+      "image": "textures/91_SPC.png"
+    },
+    "91WET_SPC": {
+      "width": 256,
+      "height": 256,
+      "format": "DXT5",
+      "byte_size": 196608,
+      "image": "textures/91WET_SPC.png"
+    },
+    "91_RGB01": {
+      "width": 32,
+      "height": 32,
+      "format": "RGB24",
+      "byte_size": 3072,
+      "image": "textures/91_RGB01.png"
+    },
+    "Eye-T": {
+      "width": 64,
+      "height": 64,
+      "format": "RGB24",
+      "byte_size": 12288,
+      "image": "textures/Eye-T.png"
+    },
+    "Eyelash": {
+      "width": 64,
+      "height": 64,
+      "format": "DXT5",
+      "byte_size": 16384,
+      "image": "textures/Eyelash.png"
+    },
+    "91shad": {
+      "width": 128,
+      "height": 128,
+      "format": "DXT5",
+      "byte_size": 65536,
+      "image": "textures/91shad.png"
+    },
+    "91-C1_CLR": {
+      "width": 128,
+      "height": 128,
+      "format": "DXT1",
+      "byte_size": 24576,
+      "image": "textures/91-C1_CLR.png"
+    },
+    "Sofa-Feet_CLR": {
+      "width": 128,
+      "height": 128,
+      "format": "DXT1",
+      "byte_size": 24576,
+      "image": "textures/Sofa-Feet_CLR.png"
+    }
+  }
+}

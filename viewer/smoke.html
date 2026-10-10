@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>vrscan — VR smoke test</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #111; }
+  canvas { display: block; }
+  #overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    max-width: 420px;
+    padding: 10px 12px;
+    font: 12px/1.4 ui-monospace, Menlo, Consolas, monospace;
+    color: #d5ffd5;
+    background: rgba(0, 0, 0, 0.65);
+    white-space: pre-wrap;
+    pointer-events: none;
+    z-index: 10;
+  }
+  #overlay .err { color: #ff8080; font-size: 14px; font-weight: bold; }
+  #overlay .event { color: #ffe08a; }
+</style>
+</head>
+<body>
+<div id="overlay">Loading…</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/build/three.module.js",
+    "three/addons/": "./vendor/three/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { VRButton } from 'three/addons/webxr/VRButton.js';
+import { XRControllerModelFactory } from 'three/addons/webxr/XRControllerModelFactory.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+
+const overlay = document.getElementById('overlay');
+const diag = {
+  navigatorXr: 'unknown',
+  vrSupported: 'unknown',
+  secureContext: String(window.isSecureContext),
+  ua: navigator.userAgent,
+  maxTextureSize: 'n/a',
+  maxTextureImageUnits: 'n/a',
+  webgl2: 'n/a',
+  gpu: 'n/a',
+  fps: 0,
+  slowFrames: 0,
+  events: [],
+  error: null,
+};
+
+function log(msg) {
+  diag.events.push(`[${new Date().toISOString().slice(11, 19)}] ${msg}`);
+  if (diag.events.length > 8) diag.events.shift();
+}
+
+function renderOverlay() {
+  const lines = [
+    `navigator.xr: ${diag.navigatorXr}`,
+    `immersive-vr supported: ${diag.vrSupported}`,
+    `isSecureContext: ${diag.secureContext}`,
+    `UA: ${diag.ua}`,
+    `WebGL2: ${diag.webgl2}`,
+    `maxTextureSize: ${diag.maxTextureSize}`,
+    `MAX_TEXTURE_IMAGE_UNITS: ${diag.maxTextureImageUnits}`,
+    `GPU: ${diag.gpu}`,
+    `FPS (avg): ${diag.fps.toFixed(1)}  |  frames >20ms (last 5s): ${diag.slowFrames}`,
+    '',
+    ...diag.events.map((e) => `<span class="event">${e}</span>`),
+  ];
+  if (diag.error) {
+    lines.push('', `<span class="err">ERROR: ${diag.error}</span>`);
+  }
+  overlay.innerHTML = lines.join('\n');
+}
+
+window.addEventListener('error', (e) => {
+  diag.error = e.message || String(e.error);
+  renderOverlay();
+});
+
+async function detectXr() {
+  diag.navigatorXr = 'xr' in navigator ? 'yes' : 'no';
+  if ('xr' in navigator) {
+    try {
+      const supported = await navigator.xr.isSessionSupported('immersive-vr');
+      diag.vrSupported = supported ? 'yes' : 'no';
+    } catch (err) {
+      diag.vrSupported = `error: ${err.message}`;
+    }
+  } else {
+    diag.vrSupported = 'n/a (no navigator.xr)';
+  }
+  renderOverlay();
+}
+
+// --- Scene setup ---
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x222233);
+
+const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.05, 50);
+camera.position.set(0, 1.6, 0);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.xr.enabled = true;
+document.body.appendChild(renderer.domElement);
+document.body.appendChild(VRButton.createButton(renderer));
+
+// Diagnostics that need the renderer/gl context.
+const gl = renderer.getContext();
+diag.webgl2 = gl instanceof WebGL2RenderingContext ? 'yes' : 'no';
+diag.maxTextureSize = renderer.capabilities.maxTextureSize;
+diag.maxTextureImageUnits = gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS);
+const dbgInfo = gl.getExtension('WEBGL_debug_renderer_info');
+diag.gpu = dbgInfo
+  ? gl.getParameter(dbgInfo.UNMASKED_RENDERER_WEBGL)
+  : 'n/a (WEBGL_debug_renderer_info unavailable)';
+
+// Lighting via RoomEnvironment + PMREM.
+const pmremGenerator = new THREE.PMREMGenerator(renderer);
+scene.environment = pmremGenerator.fromScene(new RoomEnvironment(), 0.04).texture;
+
+// Floor grid.
+const grid = new THREE.GridHelper(10, 20, 0x888888, 0x444444);
+scene.add(grid);
+
+// Rotating cube, ~1.3m high, 1.5m in front of camera start position.
+const cube = new THREE.Mesh(
+  new THREE.BoxGeometry(0.25, 0.25, 0.25),
+  new THREE.MeshStandardMaterial({ color: 0x4dd0e1, metalness: 0.3, roughness: 0.4 })
+);
+cube.position.set(0, 1.3, -1.5);
+cube.userData.homeParent = scene;
+cube.userData.homePosition = cube.position.clone();
+scene.add(cube);
+
+// Plain-screen orbit controls (disabled while in an XR session).
+const orbitControls = new OrbitControls(camera, renderer.domElement);
+orbitControls.target.set(0, 1.3, -1.5);
+orbitControls.update();
+
+// --- Controllers ---
+const controllerModelFactory = new XRControllerModelFactory();
+
+function buildController(index) {
+  const controller = renderer.xr.getController(index);
+  scene.add(controller);
+
+  const grip = renderer.xr.getControllerGrip(index);
+  grip.add(controllerModelFactory.createControllerModel(grip));
+  scene.add(grip);
+
+  const rayGeometry = new THREE.BufferGeometry().setFromPoints([
+    new THREE.Vector3(0, 0, 0),
+    new THREE.Vector3(0, 0, -1),
+  ]);
+  const ray = new THREE.Line(rayGeometry, new THREE.LineBasicMaterial({ color: 0xffffff }));
+  ray.name = 'ray';
+  ray.scale.z = 5;
+  controller.add(ray);
+
+  let grabbed = null;
+
+  controller.addEventListener('selectstart', () => {
+    const worldPos = new THREE.Vector3();
+    cube.getWorldPosition(worldPos);
+    const distance = controller.position.distanceTo(worldPos);
+    if (distance < 0.6) {
+      controller.attach(cube);
+      grabbed = cube;
+      log(`controller ${index}: grabbed cube`);
+    }
+  });
+
+  controller.addEventListener('selectend', () => {
+    if (grabbed) {
+      cube.userData.homeParent.attach(cube);
+      cube.position.copy(cube.userData.homePosition);
+      grabbed = null;
+      log(`controller ${index}: released cube`);
+    }
+  });
+
+  return controller;
+}
+
+buildController(0);
+buildController(1);
+
+renderer.xr.addEventListener('sessionstart', () => {
+  orbitControls.enabled = false;
+  log('sessionstart');
+});
+renderer.xr.addEventListener('sessionend', () => {
+  orbitControls.enabled = true;
+  log('sessionend');
+});
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// --- FPS / frame-time tracking ---
+const clock = new THREE.Clock();
+let frameCount = 0;
+let fpsAccum = 0;
+let fpsWindowStart = 0;
+let slowFrameTimestamps = [];
+
+renderer.setAnimationLoop((time, frame) => {
+  const delta = clock.getDelta();
+  cube.rotation.x += delta * 0.6;
+  cube.rotation.y += delta * 0.8;
+
+  orbitControls.update();
+  renderer.render(scene, camera);
+
+  const now = performance.now();
+  const frameMs = delta * 1000;
+  if (frameMs > 20) {
+    slowFrameTimestamps.push(now);
+  }
+  slowFrameTimestamps = slowFrameTimestamps.filter((t) => now - t <= 5000);
+  diag.slowFrames = slowFrameTimestamps.length;
+
+  frameCount += 1;
+  fpsAccum += delta;
+  if (fpsAccum >= 0.5) {
+    diag.fps = frameCount / fpsAccum;
+    frameCount = 0;
+    fpsAccum = 0;
+    renderOverlay();
+  }
+});
+
+detectXr();
+renderOverlay();
+</script>
+</body>
+</html>

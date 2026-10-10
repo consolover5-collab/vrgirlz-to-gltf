@@ -1,0 +1,41 @@
+[project]
+name = "vrscan"
+version = "0.1.0"
+description = "Unofficial VRGirlz asset converter (glTF export + web viewer, flat/VR)"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "UnityPy>=1.25.3,<1.26",
+    "numpy>=2.0",
+    "pillow>=10.4",
+    "pydantic>=2.8",
+    "cryptography>=43",
+    "segno>=1.6.6",
+    "pygltflib>=1.16.3",
+]
+
+[project.scripts]
+vrscan = "vrscan.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.9.26,<0.10.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.15.21",
+    "trimesh>=4.4",
+]
+# The Windows exe (packaging/build.ps1) — pinned: a PyInstaller upgrade
+# changes what gets bundled.
+build = [
+    "pyinstaller==6.22.3",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100

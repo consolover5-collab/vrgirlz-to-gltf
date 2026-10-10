@@ -1,0 +1,450 @@
+{
+  "schema": "vrscan-manifest/1",
+  "generator": {
+    "name": "vrscan-dev-sample",
+    "version": "0.1.0"
+  },
+  "source": {
+    "app": "synthetic",
+    "unity": "n/a",
+    "files": [
+      {
+        "name": "make-sample.py",
+        "bytes": 0,
+        "sha256": "55f13d0b87e91d1654b996c92437d758cacfa147e8e2c9cd53b69734dea7c986"
+      }
+    ]
+  },
+  "tiers": {
+    "2k": {
+      "label": "Quest 2 (dev-sample)",
+      "baseColor": 256,
+      "normal": 256,
+      "orm": 128,
+      "format": "jpeg",
+      "maxLod": 1
+    },
+    "4k": {
+      "label": "Quest 3 / PC VR (dev-sample)",
+      "baseColor": 512,
+      "normal": 512,
+      "orm": 256,
+      "format": "jpeg",
+      "maxLod": 0
+    }
+  },
+  "presets": {
+    "quest2": "2k",
+    "quest3": "4k",
+    "pcvr": "4k",
+    "ultra": "4k"
+  },
+  "sets": {
+    "dev-sample": {
+      "label": "vrscan dev-sample",
+      "profile": "dev-sample",
+      "app": "synthetic"
+    }
+  },
+  "scans": [
+    {
+      "id": "s1",
+      "dir": "scans/s1",
+      "pivot": [
+        0.0,
+        0.9,
+        0.0
+      ],
+      "bounds": {
+        "min": [
+          -0.5,
+          0.0,
+          -1.100000023841858
+        ],
+        "max": [
+          0.5,
+          1.600000023841858,
+          0.5
+        ]
+      },
+      "bodyBounds": {
+        "min": [
+          -0.2199999988079071,
+          0.0,
+          -0.2199999988079071
+        ],
+        "max": [
+          0.2199999988079071,
+          1.600000023841858,
+          0.2199999988079071
+        ]
+      },
+      "heightM": 1.600000023841858,
+      "set": "dev-sample",
+      "tiers": [
+        "2k",
+        "4k"
+      ],
+      "static": {
+        "gltf": "static.{tier}.gltf",
+        "bin": "geometry.static.bin",
+        "bytes": 1064,
+        "triangles": 14
+      },
+      "lods": [
+        {
+          "level": 0,
+          "gltf": "lod0.{tier}.gltf",
+          "bin": "geometry.lod0.bin",
+          "bytes": 35064,
+          "triangles": 1154,
+          "screenHeight": 0.25
+        },
+        {
+          "level": 1,
+          "gltf": "lod1.{tier}.gltf",
+          "bin": "geometry.lod1.bin",
+          "bytes": 11576,
+          "triangles": 354,
+          "screenHeight": 0.125
+        },
+        {
+          "level": 2,
+          "gltf": "lod2.{tier}.gltf",
+          "bin": "geometry.lod2.bin",
+          "bytes": 3704,
+          "triangles": 98,
+          "screenHeight": 0.062
+        }
+      ],
+      "parts": [
+        {
+          "id": "body",
+          "kind": "body",
+          "material": "body",
+          "lod": true
+        },
+        {
+          "id": "eyeL",
+          "kind": "eyes",
+          "material": "eyes",
+          "lod": true,
+          "hideable": true,
+          "hidden": true
+        },
+        {
+          "id": "eyeR",
+          "kind": "eyes",
+          "material": "eyes",
+          "lod": true,
+          "hideable": true,
+          "hidden": true
+        },
+        {
+          "id": "eyelashes",
+          "kind": "eyelashes",
+          "material": "eyelashes",
+          "lod": true
+        },
+        {
+          "id": "sofa-C1",
+          "kind": "sofa",
+          "material": "sofa-C1",
+          "lod": false,
+          "hideable": true
+        },
+        {
+          "id": "shadow",
+          "kind": "shadow",
+          "material": "shadow",
+          "lod": false,
+          "hideable": true
+        }
+      ],
+      "materials": {
+        "body": {
+          "type": "pbr",
+          "alphaMode": "OPAQUE",
+          "doubleSided": false,
+          "textures": {
+            "baseColor": "body_CLR",
+            "normal": "body_NM",
+            "orm": "body_ORM"
+          },
+          "variants": {
+            "wet": {
+              "textures": {
+                "orm": "body_ORM_wet"
+              }
+            }
+          }
+        },
+        "eyes": {
+          "type": "pbr",
+          "alphaMode": "OPAQUE",
+          "textures": {
+            "baseColor": "eyes_CLR"
+          },
+          "roughnessFactor": 0.15
+        },
+        "eyelashes": {
+          "type": "pbr",
+          "alphaMode": "MASK",
+          "alphaCutoff": 0.5,
+          "doubleSided": true,
+          "textures": {
+            "baseColor": "eyelash_CLR"
+          }
+        },
+        "shadow": {
+          "type": "unlit",
+          "alphaMode": "BLEND",
+          "textures": {
+            "baseColor": "shadow_CLR"
+          }
+        },
+        "sofa-C1": {
+          "type": "pbr",
+          "alphaMode": "OPAQUE",
+          "textures": {
+            "baseColor": "sofa-C1_CLR",
+            "normal": "sofa-C1_NM",
+            "orm": "sofa-C1_ORM"
+          }
+        }
+      },
+      "textures": {
+        "4k": {
+          "body_CLR": {
+            "file": "tex/4k/body_CLR.jpg",
+            "size": [
+              512,
+              512
+            ],
+            "channels": "rgb",
+            "gpuBytes": 1397751
+          },
+          "body_NM": {
+            "file": "tex/4k/body_NM.png",
+            "size": [
+              512,
+              512
+            ],
+            "channels": "rgb",
+            "gpuBytes": 1397751
+          },
+          "body_ORM": {
+            "file": "tex/4k/body_ORM.jpg",
+            "size": [
+              256,
+              256
+            ],
+            "channels": "rgb",
+            "gpuBytes": 349437
+          },
+          "body_ORM_wet": {
+            "file": "tex/4k/body_ORM_wet.jpg",
+            "size": [
+              256,
+              256
+            ],
+            "channels": "rgb",
+            "gpuBytes": 349437
+          },
+          "eyes_CLR": {
+            "file": "tex/4k/eyes_CLR.jpg",
+            "size": [
+              512,
+              512
+            ],
+            "channels": "rgb",
+            "gpuBytes": 1397751
+          },
+          "eyelash_CLR": {
+            "file": "tex/4k/eyelash_CLR.png",
+            "size": [
+              512,
+              512
+            ],
+            "channels": "rgba",
+            "gpuBytes": 1397751
+          },
+          "sofa-C1_CLR": {
+            "file": "tex/4k/sofa-C1_CLR.jpg",
+            "size": [
+              512,
+              512
+            ],
+            "channels": "rgb",
+            "gpuBytes": 1397751
+          },
+          "sofa-C1_NM": {
+            "file": "tex/4k/sofa-C1_NM.png",
+            "size": [
+              512,
+              512
+            ],
+            "channels": "rgb",
+            "gpuBytes": 1397751
+          },
+          "sofa-C1_ORM": {
+            "file": "tex/4k/sofa-C1_ORM.jpg",
+            "size": [
+              256,
+              256
+            ],
+            "channels": "rgb",
+            "gpuBytes": 349437
+          },
+          "shadow_CLR": {
+            "file": "tex/4k/shadow_CLR.png",
+            "size": [
+              512,
+              512
+            ],
+            "channels": "rgba",
+            "gpuBytes": 1397751
+          }
+        },
+        "2k": {
+          "body_CLR": {
+            "file": "tex/2k/body_CLR.jpg",
+            "size": [
+              256,
+              256
+            ],
+            "channels": "rgb",
+            "gpuBytes": 349437
+          },
+          "body_NM": {
+            "file": "tex/2k/body_NM.png",
+            "size": [
+              256,
+              256
+            ],
+            "channels": "rgb",
+            "gpuBytes": 349437
+          },
+          "body_ORM": {
+            "file": "tex/2k/body_ORM.jpg",
+            "size": [
+              128,
+              128
+            ],
+            "channels": "rgb",
+            "gpuBytes": 87359
+          },
+          "body_ORM_wet": {
+            "file": "tex/2k/body_ORM_wet.jpg",
+            "size": [
+              128,
+              128
+            ],
+            "channels": "rgb",
+            "gpuBytes": 87359
+          },
+          "eyes_CLR": {
+            "file": "tex/2k/eyes_CLR.jpg",
+            "size": [
+              256,
+              256
+            ],
+            "channels": "rgb",
+            "gpuBytes": 349437
+          },
+          "eyelash_CLR": {
+            "file": "tex/2k/eyelash_CLR.png",
+            "size": [
+              256,
+              256
+            ],
+            "channels": "rgba",
+            "gpuBytes": 349437
+          },
+          "sofa-C1_CLR": {
+            "file": "tex/2k/sofa-C1_CLR.jpg",
+            "size": [
+              256,
+              256
+            ],
+            "channels": "rgb",
+            "gpuBytes": 349437
+          },
+          "sofa-C1_NM": {
+            "file": "tex/2k/sofa-C1_NM.png",
+            "size": [
+              256,
+              256
+            ],
+            "channels": "rgb",
+            "gpuBytes": 349437
+          },
+          "sofa-C1_ORM": {
+            "file": "tex/2k/sofa-C1_ORM.jpg",
+            "size": [
+              128,
+              128
+            ],
+            "channels": "rgb",
+            "gpuBytes": 87359
+          },
+          "shadow_CLR": {
+            "file": "tex/2k/shadow_CLR.png",
+            "size": [
+              256,
+              256
+            ],
+            "channels": "rgba",
+            "gpuBytes": 349437
+          }
+        }
+      },
+      "budget": {
+        "2k": {
+          "gpuBytesTextures": 2708136,
+          "gpuBytesLod0": 11576
+        },
+        "4k": {
+          "gpuBytesTextures": 10832568,
+          "gpuBytesLod0": 35064
+        }
+      },
+      "provenance": {
+        "sceneRoot": "s1-150K",
+        "meshes": [
+          "s1_LOD0_body",
+          "s1_LOD0_eyeL",
+          "s1_LOD0_eyeR",
+          "s1_LOD0_eyelashes",
+          "s1_sofa-C1",
+          "s1_shadow"
+        ],
+        "materials": {
+          "body": {
+            "unity": "s1",
+            "shader": "IR Deform PreIntegrated Skin Wet Light Override (synthetic)",
+            "unmapped": [
+              "_MicroMixMap",
+              "_BSSRDF",
+              "_SSSColor"
+            ]
+          }
+        },
+        "textures": {
+          "body_CLR": "s1_CLR",
+          "body_ORM": "s1_SPC+s1_OCC",
+          "body_ORM_wet": "s1WET_SPC+s1_OCC"
+        },
+        "approximations": [
+          "synthetic dev-sample \u2014 not real scan data, generated by make-sample.py"
+        ]
+      }
+    }
+  ],
+  "environments": [
+    {
+      "id": "room",
+      "type": "builtin"
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>vrscan viewer</title>
+<style>
+  /* One control panel for both modes: the DOM below IS what the VR panel
+     renders (vr-panel.js feeds `.vrscan-panel` to three's HTMLMesh), so
+     everything here has to stay inside HTMLMesh's CSS subset — solid
+     background colours, borders, border-radius, absolute/flex/grid layout,
+     text. No gradients, shadows, opacity or transitions on anything that
+     must be legible in the headset. Controls are <button>s, never
+     <label>-wrapped checkboxes: HTMLMesh's synthetic click walks every
+     element under the ray, so a label + its input would toggle twice. */
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #111; font: 14px/1.35 ui-monospace, Menlo, Consolas, monospace; }
+  canvas { display: block; }
+  #ui {
+    position: fixed;
+    top: 0;
+    right: 0;
+    max-height: 100%;
+    overflow-y: auto;
+    /* The collapsed panel is parked off-screen to the right; without this
+       it would give #ui a horizontal scrollbar (overflow-y:auto alone
+       makes overflow-x compute to auto). */
+    overflow-x: hidden;
+    padding: 8px;
+    box-sizing: border-box;
+    color: #d5ffd5;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    /* Only the widgets themselves swallow clicks — the padding around them
+       stays draggable for OrbitControls. */
+    pointer-events: none;
+  }
+  #ui > * { pointer-events: auto; }
+  #ui button { box-sizing: border-box; font: inherit; cursor: pointer; }
+
+  .vrscan-collapse {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+    color: #d5ffd5;
+    background: #12161299;
+    border: 1px solid #3c4a3c;
+    border-radius: 8px;
+  }
+  /* Collapsed = slid off-screen, not display:none — the VR panel keeps
+     rendering from the same DOM (HTMLMesh needs real layout rects, and a
+     uniform translate leaves every child's relative position intact). */
+  #ui.vrscan-collapsed .vrscan-body { transform: translateX(150%); }
+
+  .vrscan-body { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+  .vrscan-panel {
+    width: 320px;
+    box-sizing: border-box;
+    padding: 10px;
+    background: #0a0d0a;
+    border: 1px solid #3c4a3c;
+    border-radius: 10px;
+  }
+
+  .vrscan-section { margin-bottom: 10px; }
+  .vrscan-section:last-child { margin-bottom: 0; }
+  .vrscan-section-title { color: #8fb0cc; font-size: 12px; margin-bottom: 5px; }
+  .vrscan-btn-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .vrscan-btn-row .vrscan-btn { flex: 1 1 auto; }
+  .vrscan-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+
+  .vrscan-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 6px 10px;
+    color: #d5ffd5;
+    background: #22262a;
+    border: 1px solid #454b52;
+    border-radius: 8px;
+  }
+  .vrscan-btn.active { color: #f2fff2; background: #2f6b3a; border-color: #7cc98a; }
+  /* No opacity here: HTMLMesh paints computed background/border colours and
+     ignores element opacity, so a disabled control has to be a different
+     colour to read as disabled in VR too. */
+  .vrscan-btn:disabled { color: #6a6f6a; background: #191b1d; border-color: #2d3033; }
+
+  .vrscan-switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    min-height: 44px;
+    margin: 4px 0;
+    padding: 4px 8px;
+    color: #cfe6cf;
+    text-align: left;
+    background: #1a1d20;
+    border: 1px solid #454b52;
+    border-radius: 8px;
+  }
+  .vrscan-switch-track {
+    position: relative;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 52px;
+    height: 28px;
+    background: #3a3f44;
+    border: 1px solid #565c62;
+    border-radius: 14px;
+  }
+  .vrscan-switch-knob {
+    position: absolute;
+    top: 2px;
+    left: 3px;
+    box-sizing: border-box;
+    width: 22px;
+    height: 22px;
+    background: #c8ccc8;
+    border-radius: 11px;
+  }
+  .vrscan-switch[aria-checked="true"] { color: #f2fff2; border-color: #7cc98a; }
+  .vrscan-switch[aria-checked="true"] .vrscan-switch-track { background: #2f8f45; border-color: #7cc98a; }
+  .vrscan-switch[aria-checked="true"] .vrscan-switch-knob { left: 25px; background: #f2fff2; }
+  .vrscan-switch:disabled { color: #6a6f6a; background: #191b1d; border-color: #2d3033; }
+  .vrscan-switch:disabled .vrscan-switch-track { background: #2d3033; border-color: #3a3f44; }
+  .vrscan-switch:disabled .vrscan-switch-knob { background: #555955; }
+
+  .vrscan-note-btn {
+    width: 100%;
+    min-height: 32px;
+    margin-bottom: 6px;
+    padding: 4px 8px;
+    color: #ffd479;
+    text-align: left;
+    background: #241f12;
+    border: 1px solid #5c4a1e;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+
+  /* Two layouts of the one panel (ui.js `setPresentation`): the flat grid
+     of set and pose buttons, or in the headset `‹ set ›` / `‹ pose n/N ›`
+     steppers, so a ten-pose set doesn't shrink every button. */
+  .vrscan-xr-only { display: none; }
+  .vrscan-panel.vrscan-xr .vrscan-xr-only { display: block; }
+  .vrscan-panel.vrscan-xr .vrscan-flat-only { display: none; }
+  .vrscan-stepper { display: grid; grid-template-columns: 52px 1fr 52px; gap: 6px; }
+  .vrscan-stepper .vrscan-btn { min-height: 52px; font-size: 24px; }
+  /* Up to two lines ("VRGirlz Lucid Dreams II"), never wider than its cell. */
+  .vrscan-stepper-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding: 0 6px;
+    overflow: hidden;
+    text-align: center;
+    color: #f2fff2;
+    background: #1a1d20;
+    border: 1px solid #454b52;
+    border-radius: 8px;
+  }
+
+  .vrscan-status { min-height: 20px; color: #ffd479; font-size: 12px; }
+  /* Secondary in the headset: one fixed line, so a loading message can't
+     change the panel's height under the ray. */
+  .vrscan-panel.vrscan-xr .vrscan-status { height: 20px; overflow: hidden; white-space: nowrap; }
+  .vrscan-exit { width: 100%; min-height: 48px; color: #fff; background: #7a2b22; border: 1px solid #c0392b; border-radius: 8px; }
+
+  .vrscan-stats { white-space: pre-wrap; color: #ffe08a; font-size: 11px; margin: 0; padding: 8px 10px; background: #0a0d0a; border: 1px solid #3c4a3c; border-radius: 8px; }
+  /* VRButton sets its own inline position:absolute/left/bottom/width (three.js
+     addon) — override so it flows inside the panel instead of floating. */
+  .vrscan-vr-slot button { position: static !important; left: auto !important; bottom: auto !important; width: 100% !important; min-height: 48px !important; }
+</style>
+</head>
+<body>
+<script type="importmap">
+{
+  "imports": {
+    "three": "./vendor/three/build/three.module.js",
+    "three/addons/": "./vendor/three/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

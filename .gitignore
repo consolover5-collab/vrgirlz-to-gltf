@@ -1,0 +1,14 @@
+out/
+.venv/
+scratch/
+viewer/vendor/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+.vrscan/
+.venv-build/
+node_modules/

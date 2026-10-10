@@ -1,0 +1,534 @@
+{
+  "unity_version": "5.3.4p1",
+  "game_objects": [
+    {
+      "path_id": 1,
+      "name": "Scans",
+      "parent": null,
+      "children": [
+        2,
+        4,
+        9,
+        12,
+        15
+      ],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "path_id": 2,
+      "name": "21-150K",
+      "parent": 1,
+      "children": [
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "transform": {
+        "t": [
+          1.0,
+          0.5,
+          -2.0
+        ],
+        "r": [
+          0.0,
+          0.70710678,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "lod_group": {
+        "levels": [
+          {
+            "screen_height": 0.25,
+            "renderers": [
+              3,
+              5,
+              6,
+              7
+            ]
+          },
+          {
+            "screen_height": 0.125,
+            "renderers": [
+              4,
+              7
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path_id": 3,
+      "name": "21_LOD0_MeshPart0",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.05,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "mesh": "shared_tri",
+      "materials": [
+        "21"
+      ]
+    },
+    {
+      "path_id": 4,
+      "name": "21_LOD1",
+      "parent": 1,
+      "children": [],
+      "transform": {
+        "t": [
+          0.7,
+          0.4,
+          -1.5
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "mesh": "shared_tri",
+      "materials": [
+        "21"
+      ]
+    },
+    {
+      "path_id": 5,
+      "name": "Eyes-Left_LOD0",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.1,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          0.9,
+          0.9,
+          0.9
+        ]
+      },
+      "mesh": "eye_l",
+      "materials": [
+        "Eyes"
+      ]
+    },
+    {
+      "path_id": 6,
+      "name": "Eyes-Right_LOD0",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.02,
+          0.1,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          0.9,
+          0.9,
+          0.9
+        ]
+      },
+      "mesh": "eye_r",
+      "materials": [
+        "Eyes"
+      ]
+    },
+    {
+      "path_id": 7,
+      "name": "Eyelashes",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.12,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          0.9,
+          0.9,
+          0.9
+        ]
+      },
+      "mesh": "lash",
+      "materials": [
+        "Eyelashes"
+      ]
+    },
+    {
+      "path_id": 8,
+      "name": "21sofa",
+      "parent": 2,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "mesh": "sofa",
+      "materials": [
+        "21sofa"
+      ]
+    },
+    {
+      "path_id": 9,
+      "name": "Shad",
+      "parent": 1,
+      "children": [],
+      "transform": {
+        "t": [
+          0.9,
+          0.0,
+          -1.9
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          50.0,
+          50.0,
+          50.0
+        ]
+      },
+      "mesh": "shadow_plane",
+      "materials": [
+        "21shad"
+      ]
+    },
+    {
+      "path_id": 10,
+      "name": "PivotHolder",
+      "parent": 2,
+      "children": [
+        11
+      ],
+      "transform": {
+        "t": [
+          0.1,
+          0.2,
+          0.3
+        ],
+        "r": [
+          0.0,
+          0.70710678,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "path_id": 11,
+      "name": "Pivot",
+      "parent": 10,
+      "children": [],
+      "transform": {
+        "t": [
+          0.4,
+          0.6,
+          0.5
+        ],
+        "r": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "path_id": 12,
+      "name": "45-150K",
+      "parent": 1,
+      "children": [
+        13,
+        14
+      ],
+      "transform": {
+        "t": [
+          -1.0,
+          0.0,
+          3.0
+        ],
+        "r": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "lod_group": {
+        "levels": [
+          {
+            "screen_height": 0.25,
+            "renderers": [
+              13
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path_id": 13,
+      "name": "45_LOD0_MeshPart0",
+      "parent": 12,
+      "children": [],
+      "transform": {
+        "t": [
+          0.0,
+          0.3,
+          0.0
+        ],
+        "r": [
+          -0.70710678,
+          0.0,
+          0.0,
+          0.70710678
+        ],
+        "s": [
+          2.0,
+          1.0,
+          1.0
+        ]
+      },
+      "mesh": "shared_tri",
+      "materials": [
+        "45"
+      ]
+    },
+    {
+      "path_id": 14,
+      "name": "Pivot",
+      "parent": 12,
+      "children": [],
+      "transform": {
+        "t": [
+          0.7,
+          0.1,
+          0.2
+        ],
+        "r": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "path_id": 15,
+      "name": "Pivot",
+      "parent": 1,
+      "children": [],
+      "transform": {
+        "t": [
+          9.0,
+          9.0,
+          9.0
+        ],
+        "r": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "s": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  ],
+  "materials": {
+    "21": {
+      "shader": "IR Skin Unlit",
+      "textures": {
+        "_MainTex": "21_CLR"
+      }
+    },
+    "45": {
+      "shader": "IR Skin Unlit",
+      "textures": {
+        "_MainTex": "45_CLR"
+      }
+    },
+    "Eyes": {
+      "shader": "Marmoset Specular IBL",
+      "textures": {
+        "_MainTex": "Eye-T"
+      }
+    },
+    "Eyelashes": {
+      "shader": "IR Hair",
+      "textures": {
+        "_MainTex": "Eyelash"
+      },
+      "floats": {
+        "_Cutoff": 1.0
+      }
+    },
+    "21shad": {
+      "shader": "Marmoset Diffuse IBL",
+      "textures": {
+        "_MainTex": "21shad"
+      },
+      "floats": {
+        "_Cutoff": 0.5
+      }
+    },
+    "21sofa": {
+      "shader": "IR Deform PreIntegrated Skin",
+      "textures": {
+        "_MainTex": "21sofa_CLR"
+      }
+    }
+  },
+  "textures": {
+    "21_CLR": {
+      "width": 32,
+      "height": 32,
+      "format": "DXT1",
+      "byte_size": 3072,
+      "image": "textures/21_CLR.png"
+    },
+    "45_CLR": {
+      "width": 32,
+      "height": 32,
+      "format": "DXT1",
+      "byte_size": 3072,
+      "image": "textures/45_CLR.png"
+    },
+    "Eye-T": {
+      "width": 32,
+      "height": 32,
+      "format": "RGB24",
+      "byte_size": 3072,
+      "image": "textures/Eye-T.png"
+    },
+    "Eyelash": {
+      "width": 32,
+      "height": 32,
+      "format": "DXT5",
+      "byte_size": 4096,
+      "image": "textures/Eyelash.png"
+    },
+    "21shad": {
+      "width": 32,
+      "height": 32,
+      "format": "DXT5",
+      "byte_size": 4096,
+      "image": "textures/21shad.png"
+    },
+    "21sofa_CLR": {
+      "width": 32,
+      "height": 32,
+      "format": "DXT1",
+      "byte_size": 3072,
+      "image": "textures/21sofa_CLR.png"
+    }
+  }
+}

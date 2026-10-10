@@ -1,0 +1,9 @@
+{
+  "name": "vrscan-gltf-validator",
+  "private": true,
+  "description": "Khronos glTF-Validator over vrscan's output: node validate.mjs <file.gltf | dir> ...",
+  "type": "module",
+  "dependencies": {
+    "gltf-validator": "2.0.0-dev.3.10"
+  }
+}
